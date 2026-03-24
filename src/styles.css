@@ -1,0 +1,127 @@
+/* ── Google Fonts ─────────────────────────────────────────── */
+
+/* ── Design Tokens ────────────────────────────────────────── */
+:root {
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'DM Mono', 'Courier New', monospace;
+
+  /* Light theme */
+  --surface-0:      #FAFAF8;
+  --surface-1:      #F3F2EE;
+  --surface-2:      #ECEAE4;
+  --text-primary:   #1A1916;
+  --text-secondary: #4A4845;
+  --text-muted:     #8A8680;
+  --border:         #E0DDD6;
+  --border-subtle:  #ECEAE4;
+  --accent:         #C2622A;
+  --accent-subtle:  #FDF5EF;
+  --accent-glow:    rgba(194, 98, 42, 0.12);
+}
+
+/* ── Reset & Base ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--surface-0);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Shared Button Styles ─────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 6px;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+
+  &:hover:not(:disabled) {
+    background: darken(#C2622A, 6%);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(194, 98, 42, 0.3);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+
+  &:hover:not(:disabled) {
+    background: var(--surface-2);
+    color: var(--text-primary);
+  }
+}
+
+.btn-danger {
+  background: #dc2626;
+  color: white;
+  border-color: #dc2626;
+
+  &:hover:not(:disabled) {
+    background: #b91c1c;
+  }
+}
+
+.btn-danger-ghost {
+  &:hover:not(:disabled) {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+  }
+}
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
