@@ -1,0 +1,33 @@
+<div class="sidebar">
+  <div class="sidebar-header">
+    <h1 class="brand">
+      <span class="brand-icon">◈</span>
+      Annotator
+    </h1>
+    <button class="btn-new" (click)="createNew.emit()" title="New article">
+      <span>+</span>
+    </button>
+  </div>
+
+  <div class="article-list">
+    @if (articles().length === 0) {
+      <div class="empty-state">
+        <p>No articles yet.</p>
+        <p>Create one to start annotating.</p>
+      </div>
+    }
+    @for (article of articles(); track article.id) {
+      <div
+        class="article-item"
+        [class.active]="article.id === selectedId()"
+        (click)="select(article.id)"
+      >
+        <div class="article-item-title">{{ article.title }}</div>
+        <div class="article-item-meta">{{ article.updatedAt | date: 'dd.MM.yyyy'}}</div>
+        <div class="article-item-preview">
+          {{ article.content | slice: 0 : 80 }}{{ article.content.length > 80 ? '…' : '' }}
+        </div>
+      </div>
+    }
+  </div>
+</div>
