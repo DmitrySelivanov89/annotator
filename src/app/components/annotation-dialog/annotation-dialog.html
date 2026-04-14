@@ -1,0 +1,60 @@
+@if (visible()) {
+  @let isEditing = editingAnnotation();
+  <div class="dialog-overlay" (click)="onOverlayClick($event)">
+    <div class="dialog">
+      <div class="dialog-header">
+        <h3 class="dialog-title">{{ isEditing ? 'Edit Annotation' : 'Add Annotation' }}</h3>
+        <button class="dialog-close" (click)="cancel.emit()">×</button>
+      </div>
+      <div class="dialog-body">
+        @let txtSelected = selectedText();
+        @if (!isEditing && txtSelected) {
+          <div class="selected-text-preview">
+            <span class="selected-text-label">Selected text</span>
+            <blockquote class="selected-text-quote">
+              "{{ txtSelected | slice: 0 : 120 }}{{ txtSelected.length > 120 ? '…' : '' }}"
+            </blockquote>
+          </div>
+        }
+        <div class="color-picker">
+          <span class="field-label">Highlight color</span>
+          <div class="color-swatches">
+            @let selectedColour = selectedColor();
+            @for (c of colors; track c) {
+              <button
+                class="swatch"
+                [style.background]="c.value"
+                [class.selected]="selectedColour === c.value"
+                [title]="c.label"
+                (click)="selectedColor.set(c.value)"
+              ></button>
+            }
+          </div>
+        </div>
+        <div class="note-field">
+          <label for="annotation-note" class="field-label">
+            Note <span class="optional">(optional)</span>
+          </label>
+          <textarea
+            id="annotation-note"
+            class="note-textarea"
+            [(ngModel)]="note"
+            placeholder="Add a note about this selection…"
+            rows="4"
+          ></textarea>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        @if (isEditing) {
+          <button class="btn btn-danger" (click)="deleteAnnotation.emit()">Delete</button>
+        }
+        <div class="dialog-footer-right">
+          <button class="btn btn-ghost" (click)="cancel.emit()">Cancel</button>
+          <button class="btn btn-primary" (click)="submit()">
+            {{ isEditing ? 'Save' : 'Annotate' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
