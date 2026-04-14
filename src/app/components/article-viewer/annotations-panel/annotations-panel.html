@@ -1,0 +1,22 @@
+@if (annotations().length > 0) {
+  <div class="annotations-panel">
+    <h3 class="annotations-panel-title">Annotations</h3>
+    <div class="annotation-chips">
+      @for (ann of annotations(); track ann.id) {
+        <div
+          class="annotation-chip"
+          [style.border-left-color]="ann.color"
+          [style.background]="ann.color + '22'"
+          (click)="selectAnnotation.emit(ann)"
+        >
+          <div class="chip-text">
+            {{ ann.selectedText | slice: 0 : 60 }}{{ ann.selectedText.length > 60 ? '…' : '' }}
+          </div>
+          @if (ann.note) {
+            <div class="chip-note">{{ ann.note }}</div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+}

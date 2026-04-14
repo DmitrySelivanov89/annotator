@@ -1,0 +1,19 @@
+@let tooltip = state();
+@if (tooltip.visible && tooltip.annotation) {
+  <div class="annotation-tooltip" [style.left.px]="tooltip.x" [style.top.px]="tooltip.y">
+    <div class="tooltip-swatch" [style.background]="tooltip.annotation!.color"></div>
+    <div class="tooltip-content">
+      <div class="tooltip-text">
+        {{ tooltip.annotation.selectedText | slice: 0 : 80 }}
+        {{ tooltip.annotation.selectedText.length > 80 ? '…' : '' }}
+      </div>
+
+      @if (tooltip.annotation.note) {
+        <div class="tooltip-note">{{ tooltip.annotation.note }}</div>
+      }
+      @if (!tooltip.annotation.note) {
+        <div class="tooltip-hint">Click to edit</div>
+      }
+    </div>
+  </div>
+}
