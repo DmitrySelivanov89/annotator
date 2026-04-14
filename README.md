@@ -1,59 +1,55 @@
 # Annotator
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.3.
+A browser-based document annotation tool built with Angular 21. Create articles, highlight text passages, and attach color-coded notes — all persisted locally in your browser.
 
-## Development server
+## Features
 
-To start a local development server, run:
+- Create, edit, and delete articles
+- Select text to create annotations with custom notes and colors
+- Overlapping annotation support with correct highlight rendering
+- Annotation side panel and hover tooltips
+- All data stored in `localStorage` (no backend required)
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Getting Started
 
 ```bash
-ng generate component component-name
+npm install
+npm start        # dev server at http://localhost:4200
+npm run build    # production build to dist/
+npm test         # run tests with Vitest
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Architecture
 
-```bash
-ng generate --help
-```
+Single-page Angular app with signal-driven navigation. `App` owns `selectedArticle` and `viewMode` signals; child components emit events to update them.
 
-## Building
+### Components
 
-To build the project run:
+| Component | Role |
+|-----------|------|
+| `ArticleList` | Sidebar listing articles; triggers select/create/delete |
+| `ArticleViewer` | Renders article content with highlighted annotations |
+| `ArticleEditor` | Form for creating/editing articles |
+| `AnnotationDialog` | Modal for creating/editing an annotation |
+| `AnnotationsPanel` | Side panel listing all annotations for the current article |
+| `AnnotationTooltip` | Hover tooltip over highlighted text |
+| `EmptyState` | Landing view when no article is selected |
 
-```bash
-ng build
-```
+### Services
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- **`StorageService`** — thin `localStorage` wrapper (JSON serialization)
+- **`ArticleService`** (`providedIn: 'root'`) — manages articles, persisted under key `annotator_articles`
+- **`AnnotationService`** (scoped to `ArticleViewer`) — manages annotations, persisted under key `annotator_annotations`
 
-## Running unit tests
+### Annotation Rendering
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+`ArticleViewer.renderHighlights` rebuilds `innerHTML` on each change using an event-sweep algorithm (sorted open/close offset events) to correctly render overlapping annotations as `<mark>` elements with `data-ann-id` attributes.
 
-```bash
-ng test
-```
+Offsets (`startOffset`/`endOffset`) are character positions into `article.content` plain text, computed via a `TreeWalker` traversal in `text.utils.ts`.
 
-## Running end-to-end tests
+## Tech Stack
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Angular 21 (standalone components, Signals API)
+- RxJS 7
+- Vitest for testing
+- Prettier for formatting
