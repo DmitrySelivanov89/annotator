@@ -1,0 +1,38 @@
+<div class="editor-container">
+  <div class="editor-header">
+    <div class="editor-title-row">
+      <h2 class="editor-heading">{{ isNew() ? 'New Article' : 'Edit Article' }}</h2>
+    </div>
+    <div class="editor-actions">
+      <button class="btn btn-ghost" (click)="cancel()">Cancel</button>
+      <button class="btn btn-primary" [disabled]="!canSave()" (click)="save()">
+        {{ isNew() ? 'Create' : 'Save Changes' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="editor-body">
+    <div class="field">
+      <label for="article-title" class="field-label">Title</label>
+      <input
+        id="article-title"
+        type="text"
+        class="field-input"
+        [(ngModel)]="title"
+        placeholder="Article title…"
+        autofocus
+        maxlength="200"
+      />
+    </div>
+
+    <div class="field field-grow">
+      <label for="article-content" class="field-label">Content</label>
+      <textarea
+        id="article-content"
+        class="field-textarea"
+        [(ngModel)]="content"
+        placeholder="Write your article content here. Plain text only — no formatting or images."
+      ></textarea>
+    </div>
+  </div>
+</div>
